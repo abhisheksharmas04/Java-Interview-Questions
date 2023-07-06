@@ -1,0 +1,15 @@
+suppose I have a table emplpersodetails which is having fileds eid and enam and empcommondetails  table which is having empid, sarlay, post fetch the 3rd higest salary and name of that employee
+SELECT e.enam, ec.salary
+FROM emplpersondetails e
+JOIN empcommondetails ec ON e.eid = ec.empid
+ORDER BY ec.salary DESC
+LIMIT 1 OFFSET 2;
+--------------------------------------------------------------------------------------------------
+Using ORACLE:
+SELECT e.enam, ec.salary
+FROM (
+    SELECT e.*, ROW_NUMBER() OVER (ORDER BY ec.salary DESC) AS row_num
+    FROM emplpersondetails e
+    JOIN empcommondetails ec ON e.eid = ec.empid
+) t
+WHERE t.row_num = 3;
